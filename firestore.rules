@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // All reads and writes are made by the trusted Node backend via Admin SDK.
+    // Direct browser access is intentionally denied.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

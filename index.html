@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MBG — Matematika Bergaya Game</title>
+
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<section id="network-denied" class="premium-gate" hidden>
+  <div class="premium-card">
+    <div class="premium-kicker">NETWORK ACCESS</div>
+    <h1>AKSES JARINGAN DITOLAK</h1>
+    <p class="premium-copy">Hubungkan perangkat ke jaringan MBG untuk melanjutkan.</p>
+    <button type="button" class="pixel-btn primary" id="network-retry">COBA LAGI</button>
+  </div>
+</section>
+<section id="premium-gate" class="premium-gate" hidden>
+  <div class="premium-card">
+    <div class="premium-kicker">🔒 MBG PREMIUM</div>
+    <h1>MBG — MATEMATIKA BERGAYA GAME</h1>
+    <p class="premium-copy">Akses MBG membutuhkan pendaftaran dan aktivasi manual oleh admin.</p>
+    <p class="premium-copy">💰 Harga akses: Rp10.000 &nbsp;·&nbsp; ♾️ Sekali bayar &nbsp;·&nbsp; 🚫 Tanpa langganan</p>
+    <button type="button" class="pixel-btn primary" id="user-login">🎮 USER</button>
+    <button type="button" class="pixel-btn" id="admin-login">👑 ADMIN</button>
+    <div id="user-login-form" class="auth-form" hidden>
+      <label for="user-login-code">Kode Login</label>
+      <input id="user-login-code" type="text" autocomplete="one-time-code" placeholder="MBG-7K4P2" />
+      <button type="button" class="pixel-btn primary" id="submit-user-login">MASUK USER</button>
+    </div>
+    <div id="admin-login-form" class="auth-form" hidden>
+      <label for="admin-code">Kode Admin</label>
+      <input id="admin-code" type="text" autocomplete="off" inputmode="numeric" maxlength="6" placeholder="MASUKKAN KODE ADMIN" />
+      <button type="button" class="pixel-btn primary" id="submit-admin-login">MASUK ADMIN</button>
+    </div>
+    <div id="premium-status" class="premium-status" role="status">Login diperlukan sebelum masuk MBG.</div>
+    <a class="pixel-btn" id="contact-admin" href="https://wa.me/6285704167145?text=Halo%20Admin%20MBG%2C%20saya%20ingin%20mendapatkan%20kode%20akses%20untuk%20masuk%20ke%20game." target="_blank" rel="noopener noreferrer">HUBUNGI ADMIN</a>
+  </div>
+</section>
+<section id="access-locked" class="premium-gate" hidden>
+  <div class="premium-card">
+    <div class="premium-kicker">🔒 MBG PREMIUM</div>
+    <h1>AKSES TERKUNCI</h1>
+    <p id="access-locked-copy" class="premium-copy">Akun belum diaktifkan admin.</p>
+    <p class="premium-copy">Kode login dibuat admin. Hubungi admin untuk mendapatkan kode akses.</p>
+    <a class="pixel-btn" href="https://wa.me/6285704167145?text=Halo%20Admin%20MBG%2C%20saya%20ingin%20mendapatkan%20kode%20akses%20untuk%20masuk%20ke%20game." target="_blank" rel="noopener noreferrer">HUBUNGI ADMIN</a>
+    <button type="button" class="pixel-btn" id="locked-logout">LOGOUT</button>
+  </div>
+</section>
+<section id="account-disabled" class="premium-gate" hidden>
+  <div class="premium-card">
+    <div class="premium-kicker">⛔ MBG ACCESS</div>
+    <h1>AKUN DINONAKTIFKAN</h1>
+    <p class="premium-copy">Akun kamu saat ini tidak dapat digunakan untuk mengakses MBG.</p>
+    <p id="account-disabled-message" class="premium-status">Silakan hubungi admin untuk mengetahui informasi lebih lanjut.</p>
+    <a class="pixel-btn primary" href="https://wa.me/6285704167145?text=Halo%20Admin%20MBG%2C%20akun%20saya%20dinonaktifkan.%20Saya%20ingin%20meminta%20informasi%20mengenai%20status%20akun%20saya." target="_blank" rel="noopener noreferrer">HUBUNGI ADMIN</a>
+    <button type="button" class="pixel-btn" id="disabled-back-login">KEMBALI KE LOGIN</button>
+  </div>
+</section>
+<section id="admin-panel" class="premium-gate" hidden>
+  <div class="premium-card admin-card">
+    <div class="premium-kicker">ADMIN PANEL</div>
+    <h1>ADMIN PANEL</h1>
+    <div class="admin-menu">
+      <button type="button" class="pixel-btn" id="admin-tab-users">DAFTAR USER</button>
+      <button type="button" class="pixel-btn" id="admin-tab-leaderboard">LEADERBOARD</button>
+      <button type="button" class="pixel-btn" id="admin-check-inactive">CEK AKUN TIDAK AKTIF</button>
+    </div>
+    <div class="auth-form">
+      <label for="new-user-name">DAFTARKAN USER — NAMA UNIK</label>
+      <input id="new-user-name" type="text" autocomplete="off" />
+      <button type="button" class="pixel-btn primary" id="create-user">BUAT AKUN</button>
+    </div>
+    <p id="admin-status" class="premium-status"></p>
+    <div id="admin-users" class="admin-users"></div>
+    <button type="button" class="pixel-btn" id="admin-logout">LOGOUT</button>
+  </div>
+</section>
+<section id="mode-selection" hidden>
+    <div class="device-card">
+      <div class="screen-header"><h2>PILIH MODE PERANGKAT</h2></div>
+      <p>Sesuaikan tampilan MBG dengan perangkat yang kamu gunakan.</p>
+      <div class="device-grid">
+        <button type="button" class="pixel-btn device-option" data-device="mobile">MODE MOBILE</button>
+        <button type="button" class="pixel-btn primary device-option" data-device="desktop">MODE DESKTOP</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="main-app" class="app-hidden">
+    <div class="app-frame">
+      <div class="ambient-symbols" aria-hidden="true">
+        <span class="ambient-symbol symbol-one">∑</span>
+        <span class="ambient-symbol symbol-two">π</span>
+        <span class="ambient-symbol symbol-three">√</span>
+        <span class="ambient-symbol symbol-four">÷</span>
+      </div>
+      <header class="app-header">
+        <button type="button" class="header-back" id="btn-back" aria-label="Kembali">←</button>
+        <div class="header-brand"><div class="header-title">MBG</div><span>MATEMATIKA BERGAYA GAME</span></div>
+        <div class="header-actions">
+          <div class="header-signal"><i></i><span>LOCAL ENGINE</span></div>
+          <button type="button" class="header-mode-btn" id="ganti-mode">GANTI MODE</button>
+<button type="button" class="header-mode-btn" id="user-logout" hidden>LOGOUT</button>
+</div>
+      </header>
+
+      <main id="screen-container">
+        <section id="screen-home" class="screen active">
+  <div class="hero-scene" aria-hidden="true">
+    <div class="hero-sun"></div>
+    <div class="cloud cloud-1"></div><div class="cloud cloud-2"></div><div class="cloud cloud-3"></div>
+    <div class="far-mountains"><i></i><i></i><i></i></div>
+    <div class="mountain mountain-1"></div><div class="mountain mountain-2"></div>
+    <div class="hero-castle"><i></i><i></i><i></i></div>
+    <div class="hero-forest"></div>
+    <div class="tree tree-1"></div><div class="tree tree-2"></div><div class="tree tree-3"></div>
+    <div class="hero-ground"></div>
+    <div class="player-mini"></div><div class="wizard-mini"></div>
+    <div class="hero-scanline"></div>
+    <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+    <div class="hero-badge">WORLD 01 <span>•</span> LIVE QUEST</div>
+    <div class="hero-caption"><strong>THE ADVENTURE STARTS HERE</strong><span>5 dunia · 25 tantangan · 1 legenda</span><small id="world-player-name">PLAYER: MEMUAT...</small></div>
+  </div>
+
+  <div class="home-stage">
+    <aside class="home-quote story-box">
+      <span class="quote-mark">“</span>
+      <p>Matematika bukan hanya angka, tapi jalan menuju masa depan.</p>
+      <small>— Qoni </small>
+    </aside>
+
+    <div class="home-center">
+      <div class="brand-wrap">
+        <h1 class="brand-main">MBG</h1>
+        <p class="brand-sub">MATEMATIKA BERGAYA GAME</p>
+        <p class="tagline">Belajar • Bermain • Taklukkan</p>
+      </div>
+      <div class="mission-rail"><span class="mission-label">ACTIVE MISSION</span><strong>TAKLUKKAN 5 DUNIA</strong><span class="mission-reward">+500 XP</span></div>
+      <button type="button" class="pixel-btn primary home-start-btn" data-go="map"><span class="start-icon">▶</span> MULAI PETUALANGAN</button>
+    </div>
+
+    <aside class="home-character-card home-action-card">
+      <div class="home-action-title"><span>PLAYER</span><strong>KARAKTER AKTIF</strong></div>
+      <div id="home-character-preview" class="character-preview"></div>
+      <button type="button" class="pixel-btn primary" data-action="open-character">PILIH KARAKTER</button>
+    </aside>
+  </div>
+
+  <div class="home-nav-grid">
+    <button type="button" class="home-nav-btn nav-materi" data-go="materi"><span>▣</span><b>MATERI</b><small>Pelajari konsep</small></button>
+    <button type="button" class="home-nav-btn nav-map" data-go="map"><span>⌖</span><b>PETA LEVEL</b><small>Jelajahi tantangan</small></button>
+    <button type="button" class="home-nav-btn nav-progress" data-go="progress"><span>▥</span><b>PROGRESS</b><small>Lihat perkembangan</small></button>
+    <button type="button" class="home-nav-btn nav-character" data-action="open-character"><span>♙</span><b>KARAKTER</b><small>Pilih & tingkatkan</small></button>
+    <button type="button" class="home-nav-btn nav-shop" data-action="open-shop"><span>🛒</span><b>SHOP</b><small>Beli item & boost</small></button>
+  </div>
+
+  <div id="home-stats" class="stat-row home-stats-row"></div>
+  <div class="home-footer-line"><span>MBG // MATEMATIKA BERGAYA GAME</span><span>WORLD 01 • LOCAL ENGINE</span></div>
+</section>
+
+        <section id="screen-map" class="screen">
+          <div class="screen-header"><h2>PETA QUEST</h2></div>
+          <p class="tagline">Selesaikan materi dan latihan sebelum masuk ke dunia game.</p>
+          <div class="map-layout"><div id="map-list" class="map-list"></div></div>
+        </section>
+
+        <section id="screen-intro" class="screen"><div id="intro-card" class="panel"></div></section>
+        <section id="screen-materi" class="screen">
+          <div id="materi-card" class="panel lesson-panel"></div>
+          <div class="lesson-nav"><button type="button" class="pixel-btn" id="prev-page">← SEBELUMNYA</button><span id="page-indicator"></span><button type="button" class="pixel-btn primary" id="next-page">LANJUT →</button></div>
+        </section>
+        <section id="screen-review" class="screen"><div id="review-card" class="panel"></div></section>
+        <section id="screen-practice" class="screen"><div id="practice-card" class="panel"></div></section>
+        <section id="screen-game" class="screen">
+          <div class="game-panel"><div id="hud" class="hud"></div><button type="button" class="game-exit pixel-btn mini" id="game-exit">← MAP</button><button type="button" class="fullscreen-btn pixel-btn mini" id="fullscreen-toggle" aria-pressed="false">⛶ FULL SCREEN</button><canvas id="game-canvas" width="480" height="270"></canvas><div class="virtual-pad" id="mobile-game-controls"><button type="button" class="move-left" id="pad-left" aria-label="Kiri"><span class="control-icon">◀</span><span>KIRI</span></button><button type="button" class="move-right" id="pad-right" aria-label="Kanan"><span class="control-icon">▶</span><span>KANAN</span></button><button type="button" class="jump-button" id="pad-jump" aria-label="Lompat"><span class="control-icon">▲</span><span>LOMPAT</span></button></div></div>
+          <p class="tagline">Keyboard: ← → bergerak · SPASI / ↑ lompat</p>
+        </section>
+        <section id="screen-gate" class="screen"><div id="gate-card" class="panel"></div></section>
+        <section id="screen-boss" class="screen"><div id="boss-card" class="panel"></div></section>
+        <section id="screen-result" class="screen"><div id="result-card" class="panel"></div><canvas id="confetti-canvas" class="confetti" width="480" height="270"></canvas></section>
+        <section id="screen-progress" class="screen">
+          <div class="screen-header"><h2>PLAYER PROGRESS</h2></div>
+          <div class="progress-layout"><div id="progress-card" class="panel"></div></div>
+          <button type="button" class="pixel-btn danger" id="reset-progress">⚙️ RESET PROGRESS</button>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-box panel"><div id="modal-text"></div><div class="modal-actions"><button type="button" class="pixel-btn danger" id="modal-primary"></button><button type="button" class="pixel-btn" id="modal-secondary"></button><button type="button" class="pixel-btn" id="modal-tertiary"></button></div></div>
+  </div>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+<script src="firebase-auth.mjs"></script>
+<script src="script.js"></script>
+</body>
+</html>
