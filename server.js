@@ -240,7 +240,8 @@ function requireSession(role) {
   return async (request, response, next) => {
     try {
       const session = readSession(request);
-      if (!session || (role && session.role !== role)) return response.status(401).json({ error: 'Sesi tidak valid.' });
+      if (!session) return response.status(401).json({ error: 'Sesi tidak valid.' });
+      if (role && session.role !== role) return response.status(403).json({ error: 'Akses ditolak untuk peran ini.' });
       if (session.role === 'user') {
         if (localMode) {
           const stored = (localStore.sessions || []).find((item) => item.sessionId === session.sessionId);
@@ -773,7 +774,10 @@ app.patch('/api/admin/users/:uid/status', requireConfigured, requireSession('adm
   });
   response.json({ ok: true });
 }));
-app.get('/api/progress', requireConfigured, requireSession('user'), asyncHandler(async (request, response) => {
+app.get('/api/progress', requireConfigured, requireSession(), asyncHandler(async (request, response) => {
+  if (request.session.role !== 'user') {
+    return response.json({ progress: null });
+  }
   if (localMode) {
     const user = localStore.users.find((item) => item.uid === request.session.uid);
     return response.json({ progress: user?.progress || null });
@@ -782,7 +786,10 @@ app.get('/api/progress', requireConfigured, requireSession('user'), asyncHandler
   if (error) throw error;
   response.json({ progress: user?.progress || null });
 }));
-app.put('/api/progress', requireConfigured, requireSession('user'), asyncHandler(async (request, response) => {
+app.put('/api/progress', requireConfigured, requireSession(), asyncHandler(async (request, response) => {
+  if (request.session.role !== 'user') {
+    return response.json({ ok: true, ignored: true });
+  }
   const allowed = ['xp', 'score', 'coins', 'life', 'level', 'unlockedLevel', 'selectedCharacter', 'allMapsUnlocked', 'unlockedLevels', 'shopOwned', 'equippedEffect', 'equippedItems', 'materialProgress', 'practiceProgress', 'gameProgress', 'achievement', 'levels', 'currentLevel', 'currentMaterialPage', 'currentPracticeIndex'];
   const progress = Object.fromEntries(allowed.filter((key) => Object.prototype.hasOwnProperty.call(request.body, key)).map((key) => [key, request.body[key]]));
   if (localMode) {

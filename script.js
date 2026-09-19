@@ -622,14 +622,14 @@ function saveState() {
   state.player.mode = state.currentMode || state.player.mode || 'desktop';
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.save));
   savePlayer();
-  if (window.mbgAuth?.user && state.premiumAccess.active) {
+  if (window.mbgAuth?.user && window.mbgAuth.user.role === 'user' && state.premiumAccess.active) {
     window.mbgAuth.saveProgress({
       ...state.save,
       ...state.player,
       currentLevel: state.currentLevel,
       currentMaterialPage: state.currentMaterialPage,
       currentPracticeIndex: state.currentPracticeIndex
-    }).catch((error) => console.warn('Progress Firestore gagal disimpan:', error));
+    }).catch((error) => console.warn('Progress gagal disimpan:', error));
   }
 }
 function applyDeviceMode() {
@@ -740,7 +740,7 @@ function renderAuthGate() {
     return;
   }
   gate.hidden = true;
-  if (state.auth?.profile?.role === 'admin') {
+  if (state.auth?.profile?.role === 'admin' || state.currentUser?.role === 'admin') {
     admin.hidden = false;
     locked.hidden = true;
     renderAdminUsers();
@@ -870,7 +870,6 @@ async function loginAdmin() {
   state.auth = { user: state.currentUser, profile: state.currentUser };
   state.premiumAccess.ready = true;
   state.premiumAccess.active = true;
-  saveState();
 
   const gate = document.getElementById('premium-gate');
   const locked = document.getElementById('access-locked');
